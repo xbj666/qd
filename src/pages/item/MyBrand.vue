@@ -2,7 +2,7 @@
 <div>
 
   <v-card-title>
-    <v-btn color="primary" >新增品牌</v-btn>
+    <v-btn color="primary" @click="addBrand">新增品牌</v-btn>
     <!--搜索框，与search属性关联-->
     <v-spacer/>
     <v-flex xs3>
@@ -35,12 +35,31 @@
       </td>
     </template>
   </v-data-table>
+
+  <v-dialog max-width="500" v-model="show" persistent>
+    <v-card>
+      <!--对话框的标题-->
+      <v-toolbar dense dark color="primary">
+        <v-toolbar-title>新增品牌</v-toolbar-title>
+        <v-spacer/>
+        <v-btn icon @click="closeWindow"><v-icon>close</v-icon></v-btn>
+      </v-toolbar>
+      <!--对话框的内容，表单-->
+      <v-card-text class="px-5">
+      <my-brand-form></my-brand-form>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </div>
 </template>
 
 <script>
+  import MyBrandForm from './MyBrandForm'
     export default {
         name: "MyBrand",
+      components:{
+          MyBrandForm
+      },
       data(){
           return{
             headers: [
@@ -53,7 +72,8 @@
             pagination:{},
             totalBrands:0,
             loading:false,
-            key:""
+            key:"",
+            show:false
 
 
           }
@@ -91,6 +111,12 @@
           })
 
 
+        },
+        addBrand(){
+          this.show=true
+        },
+        closeWindow(){
+          this.show=false
         }
 
       },
